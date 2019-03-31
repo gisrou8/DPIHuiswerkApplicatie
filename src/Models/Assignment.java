@@ -7,15 +7,31 @@ public class Assignment implements Serializable {
     private String studentName;
     private String studentClass;
     private String assignmentName;
+    private String assignmentSubject;
     private boolean reviewed;
+    private String reviewedBy;
 
 
-    public Assignment(String studentName, String studentClass, String assignmentName) {
+    public Assignment(String studentName, String studentClass, String assignmentName, String assignmentSubject) {
         this.studentName = studentName;
         this.studentClass = studentClass;
         this.assignmentName = assignmentName;
+        this.assignmentSubject = assignmentSubject;
         reviewed = false;
     }
+
+    public Assignment(){
+        reviewed = false;
+    }
+
+    public String getAssignmentSubject() {
+        return assignmentSubject;
+    }
+
+    public void setAssignmentSubject(String assignmentSubject) {
+        this.assignmentSubject = assignmentSubject;
+    }
+
 
     public String getStudentName() {
         return studentName;
@@ -52,8 +68,15 @@ public class Assignment implements Serializable {
 
     @Override
     public String toString(){
-        return assignmentName;
+        return assignmentName + " " + isReviewed() + " " + reviewedBy;
     }
 
 
+    public String getReviewedBy() {
+        return reviewedBy;
+    }
+
+    public void setReviewedBy(String reviewedBy) {
+        this.reviewedBy = reviewedBy;
+    }
 }

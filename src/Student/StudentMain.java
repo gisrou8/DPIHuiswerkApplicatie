@@ -14,7 +14,8 @@ public class StudentMain extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Studentpage.fxml"));
         primaryStage.setTitle("Student");
         Parent root = loader.load();
-
+        StudentController controller = loader.getController();
+        controller.setListener();
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

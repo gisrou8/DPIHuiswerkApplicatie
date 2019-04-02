@@ -7,6 +7,9 @@ import JMSMessage.Serializer;
 import Models.Assignment;
 
 import javax.jms.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public abstract class ServerGateway {
     private QMessageSender sender;
@@ -15,6 +18,7 @@ public abstract class ServerGateway {
     private Serializer serializer;
     private TMessagePublisher publisher;
     private String correlationId;
+
 
     public ServerGateway(){
         serializer = new Serializer();
@@ -54,12 +58,13 @@ public abstract class ServerGateway {
     }
 
 
-    public void publishMessage(Assignment asg, String channel, String correlationID){
+    public void publishMessage(Assignment asg, String channel, String correlationId){
         try {
             publisher = new TMessagePublisher(channel);
+            //String correlationId = createRandomString();
             String json = serializer.assignmentToString(asg);
             Message msg = publisher.CreateTextMessage(json);
-            msg.setJMSCorrelationID(correlationID);
+            msg.setJMSCorrelationID(correlationId);
             publisher.Send(msg);
         } catch (JMSException e) {
             e.printStackTrace();
@@ -67,10 +72,17 @@ public abstract class ServerGateway {
     }
 
     public void sendReviewedAssignment(Assignment asg, String correlationId){
-        sender = new QMessageSender("ServerToStudent");
+        sender = new QMessageSender(asg.getStudentName());
         String json = serializer.assignmentToString(asg);
         Message msg = sender.CreateTextMessage(json);
         sender.Send(msg, correlationId);
+
+    }
+
+    private String createRandomString() {
+        Random random = new Random(System.currentTimeMillis());
+        long randomLong = random.nextLong();
+        return Long.toHexString(randomLong);
     }
 
 

@@ -15,7 +15,7 @@ public class StudentMain extends Application {
         primaryStage.setTitle("Student");
         Parent root = loader.load();
         StudentController controller = loader.getController();
-        controller.setListener();
+        controller.setListener("StudentSubmit","Abdo");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

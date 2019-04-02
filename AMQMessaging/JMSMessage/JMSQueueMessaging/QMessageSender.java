@@ -8,6 +8,7 @@ import java.util.Random;
 public class QMessageSender extends MessageSetup {
 
     private Destination destination;
+    private Destination replyDestination;
     private MessageProducer producer;
 
 
@@ -33,11 +34,20 @@ public class QMessageSender extends MessageSetup {
         return null;
     }
 
+    public void refreshConnection(){
+        try {
+            if(connection != null){
+                connection.close();
+            }
+            connection.start();
+        } catch (JMSException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void Send(Message msg){
         try {
-            String correlationID = createRandomString();
-            msg.setJMSCorrelationID(correlationID);
             producer.send(msg);
         } catch (JMSException e) {
             e.printStackTrace();

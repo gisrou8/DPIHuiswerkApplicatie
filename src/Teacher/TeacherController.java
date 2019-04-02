@@ -31,6 +31,7 @@ public class TeacherController {
     private ObservableList<Assignment> submitted = FXCollections.observableArrayList();
     private ObservableList<Assignment> reviewed = FXCollections.observableArrayList();
     private Map<String, Assignment> assignments = new HashMap<>();
+    private String correlationID;
 
 
     @FXML
@@ -44,11 +45,8 @@ public class TeacherController {
     @FXML
     void btnSend_onClick(ActionEvent event) {
         Assignment asg = lvReviewed.getSelectionModel().getSelectedItem();
-        for(Map.Entry<String, Assignment> entry : assignments.entrySet()){
-            if(asg.getStudentName().equals(entry.getValue().getStudentName()) && asg.getAssignmentName().equals(entry.getValue().getAssignmentName())){
-                gateway.sendResponse(asg, entry.getKey());
-            }
-        }
+        gateway.sendResponse(asg, asg.getCorrelationId());
+
 
     }
 
@@ -58,6 +56,7 @@ public class TeacherController {
             @Override
             public void onMessageArrived(Assignment asg, String correlationId) {
                 asg.setReviewedBy(Tchannel);
+                correlationID = correlationId;
                 assignments.put(correlationId, asg);
                 submitted.add(asg);
                 lvIncoming.setItems(submitted);

@@ -1,15 +1,20 @@
 package Models;
 
 import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Assignment implements Serializable {
 
+    private static final AtomicInteger count = new AtomicInteger(0);
+
+    private int ID;
     private String studentName;
     private String studentClass;
     private String assignmentName;
     private String assignmentSubject;
     private boolean reviewed;
     private String reviewedBy;
+    private String correlationId;
 
 
     public Assignment(String studentName, String studentClass, String assignmentName, String assignmentSubject) {
@@ -18,6 +23,7 @@ public class Assignment implements Serializable {
         this.assignmentName = assignmentName;
         this.assignmentSubject = assignmentSubject;
         reviewed = false;
+        ID = count.incrementAndGet();
     }
 
     public Assignment(){
@@ -78,5 +84,21 @@ public class Assignment implements Serializable {
 
     public void setReviewedBy(String reviewedBy) {
         this.reviewedBy = reviewedBy;
+    }
+
+    public String getCorrelationId() {
+        return correlationId;
+    }
+
+    public void setCorrelationId(String correlationId) {
+        this.correlationId = correlationId;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 }

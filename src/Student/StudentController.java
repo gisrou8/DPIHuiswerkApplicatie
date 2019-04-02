@@ -61,13 +61,14 @@ public class StudentController {
     }
 
 
-    public void setListener(){
-        gateway = new StudentGateway() {
+    public void setListener(String Tchannel, String Qchannel){
+        gateway = new StudentGateway(Tchannel, Qchannel) {
             @Override
             public void onAssigmentArrived(Assignment asg) {
                 reviewed.add(asg);
                 lvReviewed.setItems(reviewed);
             }
         };
+
     }
 }

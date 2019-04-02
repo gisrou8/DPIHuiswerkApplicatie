@@ -32,4 +32,5 @@ public class QMessageReceiver extends MessageSetup {
             e.printStackTrace();
         }
     }
+
 }
